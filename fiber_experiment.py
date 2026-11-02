@@ -63,7 +63,7 @@ def draw_experiment(ax, n_core, n_cladding, n_medium, incident_angle):
     source_x = 0.15
     entry_y = 0.0  # force the ray to always hit the exact center of the core
     
-    # calculate the source's starting height backwards from the entry point
+    # Calculate the source's starting height backwards from the entry point
     source_y = -math.tan(math.radians(incident_angle)) * (entry_x - source_x)
     
     ax.plot([source_x, entry_x], [source_y, entry_y], color="red", linewidth=2.3,
