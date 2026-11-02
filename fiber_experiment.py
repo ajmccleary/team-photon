@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Interactive Matplotlib visualization of a step-index fiber optics experiment."""
+"""Interactive Matplotlib visualization of a fiber optics experiment."""
 
 import math
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from matplotlib.widgets import Button, Slider
 
-# Draw the experiment and calculate the optical properties
+# Draw the experiment and calculate optical properties
 def draw_experiment(ax, n_core, n_cladding, n_medium, incident_angle):
     ax.clear()
 
@@ -161,21 +161,24 @@ def draw_experiment(ax, n_core, n_cladding, n_medium, incident_angle):
                 bbox={"boxstyle": "round,pad=0.6", "facecolor": "whitesmoke", "alpha": 0.95, "edgecolor": "lightgray"})
 
 def main():
+    # Create figure
     fig = plt.figure(figsize=(30, 20))
     fig.canvas.manager.set_window_title("Interactive Fiber Optics Experiment")
 
-    experiment_ax = fig.add_axes([0.05, 0.38, 0.90, 0.55])
-
+    # Create elements of the figure
+    experiment_ax = fig.add_axes([0.05, 0.38, 0.90, 0.55])  
     core_ax = fig.add_axes([0.10, 0.25, 0.40, 0.03])
     cladding_ax = fig.add_axes([0.10, 0.18, 0.40, 0.03])
     medium_ax = fig.add_axes([0.10, 0.11, 0.40, 0.03])
     angle_ax = fig.add_axes([0.10, 0.04, 0.40, 0.03])
 
-    core_slider = Slider(core_ax, "Core Index (n_core)", 1.30, 1.70, valinit=1.48, valstep=0.01, color="blue")
-    cladding_slider = Slider(cladding_ax, "Cladding Index (n_cladding)", 1.30, 1.70, valinit=1.46, valstep=0.01, color="gray")
-    medium_slider = Slider(medium_ax, "Medium Index (n_medium)", 1.00, 1.60, valinit=1.00, valstep=0.01, color="purple")
+    # Create sliders
+    core_slider = Slider(core_ax, "Core Index", 1.30, 1.70, valinit=1.48, valstep=0.01, color="blue")
+    cladding_slider = Slider(cladding_ax, "Cladding Index", 1.30, 1.70, valinit=1.46, valstep=0.01, color="gray")
+    medium_slider = Slider(medium_ax, "Medium Index", 1.00, 1.60, valinit=1.00, valstep=0.01, color="purple")
     angle_slider = Slider(angle_ax, "Incident Angle (degrees)", 0.0, 45.0, valinit=14.0, valstep=0.5, color="red")
 
+    # Handle updating graphics
     def update(_value):
         draw_experiment(experiment_ax, core_slider.val, cladding_slider.val, medium_slider.val, angle_slider.val)
         fig.canvas.draw_idle()
@@ -185,6 +188,7 @@ def main():
     medium_slider.on_changed(update)
     angle_slider.on_changed(update)
 
+    # Create buttons
     standard_ax = fig.add_axes([0.62, 0.18, 0.14, 0.04])
     dense_ax = fig.add_axes([0.79, 0.18, 0.16, 0.04])
 
@@ -206,6 +210,7 @@ def main():
     standard_button.on_clicked(set_standard)
     dense_button.on_clicked(set_dense)
 
+    # Display experiment
     draw_experiment(experiment_ax, 1.48, 1.46, 1.00, 14.0)
     plt.show()
 
